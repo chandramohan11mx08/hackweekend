@@ -46,7 +46,32 @@ var findRoute = function (req, res) {
 
     request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            res.send(response.body);
+            res.send(JSON.parse(response.body));
+        } else {
+            res.send(500);
+        }
+    });
+}
+
+var findStaysInRoute = function (req, res) {
+    var baseUrl = "https://maps.googleapis.com/maps/api/directions/json";
+    var API_KEY = "AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI";
+
+    var origin_place_id = req.query.origin;
+    var destination_place_id = req.query.destination;
+
+    request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var response = JSON.parse(response.body);
+//            var legs = response.body.routes[0].legs;
+            res.send(response);
+//            request("/stays/legs", function (error, response, body) {
+//                if (!error) {
+//                    res.send(500);
+//                } else {
+//                    res.send(response.body);
+//                }
+//            });
         } else {
             res.send(500);
         }
@@ -56,3 +81,4 @@ var findRoute = function (req, res) {
 
 exports.findStaysFromLegs = findStaysFromLegs;
 exports.findRoute = findRoute;
+exports.findStaysInRoute = findStaysInRoute;
