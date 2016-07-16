@@ -25,4 +25,5 @@ router.post('/stays/legs', function(req, res, next) {
     whacks.findStaysFromLegs(req, res);
 });
 
+
 module.exports = router;
