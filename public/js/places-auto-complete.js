@@ -65,6 +65,29 @@ function collectPlaceTo() {
                         }
 
                     });
+                    $.ajax({
+                        url: '/pois/legs',
+                        type: 'POST',
+                        data: JSON.stringify({legs: res.routes[0].legs}),
+                        dataTYpe: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (body) {
+                            $.each(body.pois, function (i, obj) {
+                                if (obj.length) {
+                                    $.each(obj, function (j, val) {
+                                        var ltArr = val._source.geometry.location;
+
+                                        var obj = {
+                                            lat: parseFloat(ltArr.lat),
+                                            lng: parseFloat(JSON.parse(JSON.stringify(ltArr.lon)))
+                                        };
+                                        createMarkerForStays(obj, val._source.name);
+                                    });
+                                }
+
+                            });
+                        }
+                    });
                 }
             });
 
