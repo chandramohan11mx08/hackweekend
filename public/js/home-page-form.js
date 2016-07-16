@@ -23,7 +23,20 @@ $(document).ready(function () {
         }
     }
 
-    $('.js_trip_purpose_opt').on('click', function () {
+    $('.js_road_trip').on('click', function () {
+        $('.interest_opt_img_cont').removeClass('active');
+        $(this).find('.interest_opt_img_cont').addClass('active');
+        $('.js_pilgrimage_trip_form').addClass('hide');
+        $('.js_road_trip_form').removeClass('hide');
+        $('.js_form_next').trigger('click');
+        $('.holidays_nav_sec').removeClass('hide');
+    });
+
+    $('.js_pilgrimage_trip').on('click', function () {
+        $('.interest_opt_img_cont').removeClass('active');
+        $(this).find('.interest_opt_img_cont').addClass('active');
+        $('.js_pilgrimage_trip_form').removeClass('hide');
+        $('.js_road_trip_form').addClass('hide');
         $('.js_form_next').trigger('click');
         $('.holidays_nav_sec').removeClass('hide');
     });
