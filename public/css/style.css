@@ -60,7 +60,7 @@ li.interest_opt_cont {
     width: 45%;
 }
 
-li.interest_opt_cont img,.interest_opt_img_cont {
+li.interest_opt_cont img, .interest_opt_img_cont {
     display: inline-block;
     width: 150px;
     height: 150px;
@@ -71,7 +71,7 @@ li.interest_opt_cont img,.interest_opt_img_cont {
     position: relative;
 }
 
-.interest_opt_img_cont.active .selected_icon{
+.interest_opt_img_cont.active .selected_icon {
     position: absolute;
     top: 0;
     left: 0;
@@ -165,6 +165,7 @@ li.interest_opt_cont h3 {
     border: 0;
     border-radius: 50px;
 }
+
 .holidays_nav_btn.hide {
     display: none;
 }
@@ -179,4 +180,41 @@ li.interest_opt_cont h3 {
 
 .options_model_close.hide {
     display: none;
+}
+
+/** Route Details **/
+.route_label {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.298039) 0 1px 4px -1px;
+}
+
+.route_marker {
+    display: table;
+    text-align: center;
+    height: 50%;
+    width: 100%
+}
+
+.route_marker_label_cont {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.route_marker_label {
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #f3f1ed;
+    padding: 8px 20px;
+    font-size: 10px;
+    line-height: 1.8;
+}
+.route_marker_label .dist{
+    color: #6c9f43;
+}
+.route_marker_label .timing{
+    color: #edc856;
 }
