@@ -17,10 +17,6 @@ router.get('/route', function(req, res, next) {
     whacks.findRoute(req, res);
 });
 
-router.get('/route/stays', function(req, res, next) {
-    whacks.findStaysInRoute(req, res);
-});
-
 router.get('/stays', function(req, res, next) {
     searchStays.getUserHotels(req, res);
 });
