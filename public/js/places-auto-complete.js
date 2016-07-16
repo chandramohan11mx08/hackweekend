@@ -32,6 +32,12 @@ function collectPlaceTo() {
             var res = body;
             console.log(res.routes[0].legs[0].start_address);
             console.log(res.routes[0].legs[0].end_address);
+            $('.js_route_sec').html('');
+            $('.js_route_sec').append('<div class="route_label">' + res.routes[0].legs[0].start_address + '</div>');
+            $('.js_route_sec').append('<div class="route_marker"><div class="route_marker_label_cont">' +
+                '<div class="route_marker_label"><div class="dist">' + res.routes[0].legs[0].distance.text + '</div>' +
+                '<div class="timing">' + res.routes[0].legs[0].duration.text + '</div></div></div></div>');
+            $('.js_route_sec').append('<div class="route_label">' + res.routes[0].legs[0].end_address + '</div>');
             $.ajax({
                 url: '/stays/legs',
                 type: 'POST',
