@@ -29,14 +29,15 @@ function collectPlaceTo() {
     $.ajax({
         url: '/route?origin=' + fromPlaceId + '&destination=' + toPlaceId,
         success: function (body) {
-            var res = JSON.parse(body);
+            var res = body;
             console.log(res.routes[0].legs[0].start_address);
             console.log(res.routes[0].legs[0].end_address);
             $.ajax({
                 url: '/stays/legs',
                 type: 'POST',
-                data: {legs: res.routes[0].legs},
-                dataType: 'json',
+                data: JSON.stringify({legs: res.routes[0].legs}),
+                dataTYpe: 'json',
+                contentType: "application/json; charset=utf-8",
                 success: function (body) {
                     console.log(body);
                 }
