@@ -1,0 +1,142 @@
+body {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+/** Home Page Css **/
+header {
+    background: transparent;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.home_page_cont {
+    background: #000;
+    height: 660px;
+    width: 100%;
+    display: block;
+    background: url(../image/home/home_back_one.jpg) left bottom no-repeat;
+    background-size: cover;
+    padding: 100px 0;
+}
+
+.home_page_hero_hd, .home_page_sub_hd {
+    color: #FFFFFF;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.home_page_sub_hd {
+    padding: 10px 0;
+}
+
+/** Form Style **/
+.home_page_form_car {
+    display: none;
+}
+
+.home_page_hero_form {
+    width: 600px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.41);
+    border-radius: 3px;
+    padding: 30px 0;
+    position: relative;
+}
+
+li.interest_opt_cont {
+    display: inline-block;
+    list-style: none;
+    text-align: center;
+    width: 45%;
+}
+
+li.interest_opt_cont img {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 200px;
+}
+
+li.interest_opt_cont h3 {
+    color: #fff;
+    display: block;
+    padding: 30px 0 0 0;
+}
+
+/** Holidays count section **/
+.home_page_form_sec.holidays_count {
+    text-align: center;
+}
+
+.holidays_count_sec {
+    display: inline-block;
+    padding: 0;
+}
+
+.input-group-btn {
+    display: inline-block;
+}
+
+.holidays_count_minus, .holidays_count_plus {
+    padding: 9px 12px 8px 12px;
+    font-size: 1.6rem;
+    background: #090a08;
+    border: 0;
+    color: #65889e;
+    display: block;
+    cursor: pointer;
+    outline: none;
+}
+
+.holidays_count_input {
+    font-size: 1.6rem;
+    color: #2b3e51;
+    display: inline-block;
+    width: 300px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    padding: 11px;
+    border: 0 solid #cfd9db;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.08);
+    margin: 0 -4px;
+    text-align: center;
+}
+
+.holidays_count_input:focus {
+    outline: none;
+    border-color: #2c97de;
+    box-shadow: 0 0 5px rgba(44, 151, 222, 0.2);
+}
+
+.holidays_nav_sec {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.holidays_nav_sec.hide {
+    display: none;
+}
+
+.holidays_nav_btn {
+    padding: 12px 30px;
+    font-size: 1.3em;
+}
+
+.holidays_nav_btn.left {
+    float: left;
+}
+
+.holidays_nav_btn.right {
+    float: right;
+}
