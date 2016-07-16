@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="26px" viewBox="0 0 32 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>checkmark</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="checkmark" transform="translate(-1.000000, -1.000000)" fill="#FFFFFF">
+            <g id="Page-1">
+                <g>
+                    <g id="Icon-Set-Filled">
+                        <path d="M31.783,2.2 C30.188,0.57 27.603,0.57 26.008,2.2 L11.569,16.92 L7.96,13.24 C6.365,11.62 3.779,11.62 2.185,13.24 C0.59,14.87 0.59,17.51 2.185,19.13 L8.682,25.76 C10.277,27.39 12.862,27.39 14.457,25.76 L31.783,8.09 C33.378,6.46 33.378,3.82 31.783,2.2" id="checkmark"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
