@@ -13,6 +13,10 @@ router.get('/search', function(req, res, next) {
   res.render('search', { title: 'Search Stays' });
 });
 
+router.get('/route', function(req, res, next) {
+    whacks.findRoute(req, res);
+});
+
 router.get('/stays', function(req, res, next) {
     searchStays.getUserHotels(req, res);
 });

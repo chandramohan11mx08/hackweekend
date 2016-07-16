@@ -35,4 +35,24 @@ var findStaysFromLegs = function (req, res) {
     })
 };
 
+
+var findRoute = function (req, res) {
+
+    var baseUrl = "https://maps.googleapis.com/maps/api/directions/json";
+    var API_KEY = "AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI";
+
+    var origin_place_id = req.query.origin;
+    var destination_place_id = req.query.origin;
+
+    request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(response.body);
+        } else {
+            res.send(500);
+        }
+    });
+};
+
+
 exports.findStaysFromLegs = findStaysFromLegs;
+exports.findRoute = findRoute;
