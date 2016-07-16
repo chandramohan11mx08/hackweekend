@@ -49,7 +49,7 @@ var getUserPois = function (req, res) {
         }
         else {
             res.send(200, {
-                "stays": response.hits.hits
+                "pois": response.hits.hits
             })
         }
     });

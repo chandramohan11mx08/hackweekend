@@ -3,6 +3,8 @@ var router = express.Router();
 var searchStays = require("./search_stays");
 var whacks = require("./whacks");
 var searchPois = require('./search_poi');
+var stateCount = require('./state_wise_count');
+var statePois = require('./state_wise_pois')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -30,7 +32,15 @@ router.get('/pois', function (req, res, next) {
     searchPois.getUserPois(req,res);
 });
 
-router.post('/stays/legs', function(req, res, next) {
+router.get('/statecount' , function (req, res, next) {
+    stateCount.getStateWiseCount(req, res);
+});
+
+router.get('/statepois', function (req, res, next) {
+    statePois.getStateWisePois(req,res);
+});
+
+router.post('/pois/legs', function(req, res, next) {
     whacks.findPoisFromLegs(req, res);
 });
 
