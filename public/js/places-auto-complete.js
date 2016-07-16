@@ -7,6 +7,8 @@ var componentForm = {
     country: 'long_name',
     postal_code: 'short_name'
 };
+var fromPlaceId = '';
+var toPlaceId = '';
 
 function initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
@@ -16,27 +18,45 @@ function initAutocomplete() {
 
     // When the user selects an address from the dropdown, populate the address
     // fields in the form.
-    // autocomplete.addListener('place_changed', fillInAddress);
+    startingFrom.addListener('place_changed', collectPlaceFrom);
+    goingTo.addListener('place_changed', collectPlaceTo);
 }
 
-function fillInAddress() {
+function collectPlaceTo() {
+    var place = goingTo.getPlace();
+    console.log(place.place_id);
+    toPlaceId = place.place_id;
+    $.ajax({
+        url: '/route?origin=' + fromPlaceId + '&destination=' + toPlaceId,
+        success: function (body) {
+            var res = JSON.parse(body);
+            console.log(res.routes[0].legs[0].start_address);
+            console.log(res.routes[0].legs[0].end_address);
+            $.ajax({
+                url: '/stays/legs',
+                type: 'POST',
+                data: {legs: res.routes[0].legs},
+                dataType: 'json',
+                success: function (body) {
+                    console.log(body);
+                }
+            });
+
+        }
+    });
+}
+
+function collectPlaceFrom() {
     // Get the place details from the autocomplete object.
-    var place = autocomplete.getPlace();
-
-    for (var component in componentForm) {
-        document.getElementById(component).value = '';
-        document.getElementById(component).disabled = false;
-    }
-
+    var place = startingFrom.getPlace();
+    console.log(place.place_id);
+    fromPlaceId = place.place_id;
     // Get each component of the address from the place details
     // and fill the corresponding field on the form.
-    for (var i = 0; i < place.address_components.length; i++) {
-        var addressType = place.address_components[i].types[0];
-        if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
-        }
-    }
+
+        // var origin_place_id = "ChIJbU60yXAWrjsR4E9-UejD3_g";
+        // var destination_place_id = "ChIJj0i_N0xaozsRZP78dHq8e4I";
+
 }
 
 // Bias the autocomplete object to the user's geographical location,

@@ -7,13 +7,13 @@ var findStaysFromLegs = function (req, res) {
     var params = [];
 
     var legs = req.body.legs;
-    for(var leg in legs){
+    for (var leg in legs) {
         var steps = legs[leg].steps;
-        for(var step in steps){
+        for (var step in steps) {
             var end_location = steps[step].end_location;
             var lat = end_location.lat;
             var lng = end_location.lng;
-            params.push({lat:lat,lng:lng});
+            params.push({lat: lat, lng: lng});
         }
     }
 
@@ -27,10 +27,10 @@ var findStaysFromLegs = function (req, res) {
             }
         });
     }, function (err) {
-        if (err){
+        if (err) {
             console.error(err.message);
-        } else{
-            res.send(200,{"stays":stays});
+        } else {
+            res.send(200, {"stays": stays});
         }
     })
 };
@@ -42,7 +42,7 @@ var findRoute = function (req, res) {
     var API_KEY = "AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI";
 
     var origin_place_id = req.query.origin;
-    var destination_place_id = req.query.origin;
+    var destination_place_id = req.query.destination;
 
     request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
