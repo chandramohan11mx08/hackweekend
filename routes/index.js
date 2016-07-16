@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var searchStays = require("./search_stays");
 var whacks = require("./whacks");
+var whacksPoi = require('./whacks_poi');
 var searchPois = require('./search_poi');
 var stateCount = require('./state_wise_count');
 var statePois = require('./state_wise_pois')
@@ -41,7 +42,7 @@ router.get('/statepois', function (req, res, next) {
 });
 
 router.post('/pois/legs', function(req, res, next) {
-    whacks.findPoisFromLegs(req, res);
+    whacksPoi.findPoisFromLegs(req, res);
 });
 
 module.exports = router;
