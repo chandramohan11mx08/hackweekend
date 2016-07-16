@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
     var is_bouncy_nav_animating = false;
@@ -22,7 +23,6 @@ $(document).ready(function () {
         }
     }
 
-
     $('.js_trip_purpose_opt').on('click', function () {
         $('.js_form_next').trigger('click');
         $('.holidays_nav_sec').removeClass('hide');
@@ -34,7 +34,10 @@ $(document).ready(function () {
         $('.js_form_nav').data('curr-index', nextIndex);
         $('.pagination [data-index="' + nextIndex + '"]').parent().trigger('click');
         if (nextIndex === 2) {
+            $('.js_form_next').addClass('hide');
             triggerBouncyNav(true);
+        }else {
+            $('.js_form_next').removeClass('hide');
         }
     });
 
@@ -50,7 +53,10 @@ $(document).ready(function () {
             $('.js_form_nav').data('curr-index', prevIndex);
 
             if (prevIndex === 2) {
+                $('.js_form_next').addClass('hide');
                 triggerBouncyNav(true);
+            }else{
+                $('.js_form_next').removeClass('hide');
             }
         }
     });
@@ -67,8 +73,24 @@ $(document).ready(function () {
         $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
     }
 
-    $('.js_select_city').on('click', function () {
+    function bindSelectOptionsEvents() {
+        $('.js_select_city').on('click', function () {
+            triggerBouncyNav(false);
+            showFormLoader();
+            $('.js_options_close').removeClass('hide');
+            $('.js_form_back').addClass('hide');
+        });
+    }
+
+    bindSelectOptionsEvents();
+
+    $('.js_options_close').on('click', function () {
         triggerBouncyNav(false);
-        showFormLoader();
+        var html = '<li> <a href="#0" class="js_select_city">Bangalore</a> </li> <li> <a href="#0" class="js_select_city">Goa</a> </li> <li> <a href="#0" class="js_select_city">Mumbai</a> </li> <li> <a href="#0" class="js_select_city">Delhi</a> </li> <li> <a href="#0" class="js_select_city">Kolkata</a> </li> <li> <a href="#0" class="js_select_city">Chennai</a> </li>';
+        $('.js_city_list').html(html);
+        $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
+        $('.js_options_close').addClass('hide');
+        $('.js_form_back').removeClass('hide');
+        bindSelectOptionsEvents();
     });
 });
