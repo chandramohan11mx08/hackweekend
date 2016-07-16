@@ -218,3 +218,43 @@ li.interest_opt_cont h3 {
 .route_marker_label .timing{
     color: #edc856;
 }
+
+
+.marker-toolTip {
+    display: table;
+    width: 100%;
+}
+
+.stay-image {
+    display: table-cell;
+    padding-right: 10px;
+    vertical-align: middle;
+}
+
+.image {
+    border-radius: 62px;
+    width: 75px;
+    height: 75px;
+}
+
+.stay-info {
+    display: table-cell;
+    vertical-align: top;
+    padding: 8px 0;
+}
+
+.stay-name {
+    font-weight: 600;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.stay-price {
+    font-size: 14px;
+}
+
+.stay-link {
+    float: right;
+    color: blue;
+}
+

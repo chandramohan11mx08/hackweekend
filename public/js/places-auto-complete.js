@@ -32,6 +32,7 @@ function collectPlaceTo() {
             var res = body;
             console.log(res.routes[0].legs[0].start_address);
             console.log(res.routes[0].legs[0].end_address);
+            $('.js_route_sec').show();
             $('.js_route_sec').html('');
             $('.js_route_sec').append('<div class="route_label">' + res.routes[0].legs[0].start_address + '</div>');
             $('.js_route_sec').append('<div class="route_marker"><div class="route_marker_label_cont">' +
@@ -58,7 +59,8 @@ function collectPlaceTo() {
                                     lat: parseFloat(ltArr[0]),
                                     lng: parseFloat(ltArr[1])
                                 };
-                                createMarkerForStays(obj, val._source.fld_name);
+                                console.log('source is', val._source);
+                                createMarkerForStays(obj, val._source);
                             });
                         }
 
