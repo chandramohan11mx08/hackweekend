@@ -39,12 +39,11 @@ var findPois  = function (lat, lng, radius, callback) {
     return;
 };
 var getUserPois = function (req, res) {
-    var esClient = esClientHandler.get();
     var lat = req.query.lat;
     var lng = req.query.lng;
     var radius = req.query.radius;
 
-    findPois(esClient, lat, lng, radius, function (err, response) {
+    findPois(lat, lng, radius, function (err, response) {
         if (err) {
             res.send(500, {error: err.message});
         }
