@@ -1,6 +1,7 @@
 var esClientHandler = require('./es_client');
 
-var findPoi  = function (client, lat, lng, radius, callback) {
+var findPois  = function (lat, lng, radius, callback) {
+    var client = esClientHandler.get();
     client.search({
         index: 'search',
         type: 'szpoi',
@@ -22,7 +23,8 @@ var findPoi  = function (client, lat, lng, radius, callback) {
                         }
                     }
                 }
-            }
+            },
+            size : 10
         }
     }, function (error, response) {
         if (error) {
@@ -36,13 +38,13 @@ var findPoi  = function (client, lat, lng, radius, callback) {
     });
     return;
 };
-var getUserPoi = function (req, res) {
+var getUserPois = function (req, res) {
     var esClient = esClientHandler.get();
     var lat = req.query.lat;
     var lng = req.query.lng;
     var radius = req.query.radius;
 
-    findPoi(esClient, lat, lng, radius, function (err, response) {
+    findPois(esClient, lat, lng, radius, function (err, response) {
         if (err) {
             res.send(500, {error: err.message});
         }
@@ -53,4 +55,6 @@ var getUserPoi = function (req, res) {
         }
     });
 };
-exports.getUserPoi = getUserPoi;
+
+exports.getUserPois = getUserPois;
+exports.findPois = findPois;
