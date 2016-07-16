@@ -39,7 +39,24 @@ function collectPlaceTo() {
                 dataTYpe: 'json',
                 contentType: "application/json; charset=utf-8",
                 success: function (body) {
-                    console.log(body);
+                    $('html,body').animate({
+                        scrollTop: $(".js_map_section_cont").offset().top
+                    }, 1000);
+                    initMap();
+                    initMapRedirect(res.routes[0].legs[0].start_location, res.routes[0].legs[0].end_location);
+                    $.each(body.stays, function (i, obj) {
+                        if (obj.length) {
+                            $.each(obj, function (j, val) {
+                                var ltArr = val._source.location.split(',');
+                                var obj = {
+                                    lat: parseFloat(ltArr[0]),
+                                    lng: parseFloat(ltArr[1])
+                                };
+                                createMarkerForStays(obj, val._source.fld_name);
+                            });
+                        }
+
+                    });
                 }
             });
 
@@ -55,8 +72,8 @@ function collectPlaceFrom() {
     // Get each component of the address from the place details
     // and fill the corresponding field on the form.
 
-        // var origin_place_id = "ChIJbU60yXAWrjsR4E9-UejD3_g";
-        // var destination_place_id = "ChIJj0i_N0xaozsRZP78dHq8e4I";
+    // var origin_place_id = "ChIJbU60yXAWrjsR4E9-UejD3_g";
+    // var destination_place_id = "ChIJj0i_N0xaozsRZP78dHq8e4I";
 
 }
 
