@@ -13,11 +13,14 @@ var app = express();
 
 // view engine setup
 app.engine('.hbs', expressHandlebars({
-//    defaultLayout: 'index',
     extname: '.hbs',
-    layoutsDir: 'views'
+    layoutsDir: 'views',
+    helpers: require('./lib/util/server-handlebar-helpers'),
+    partialsDir: path.join(__dirname, 'views/partials'),
+    defaultLayout: 'index'
 }));
-app.set('views', path.join(__dirname, 'views'));
+
+// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', '.hbs');
 app.set('port', '3111');
 app.set('GOOGLE_API', 'AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI');
@@ -26,7 +29,7 @@ app.set('GOOGLE_API', 'AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
