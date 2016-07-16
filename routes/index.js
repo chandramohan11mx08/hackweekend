@@ -7,6 +7,8 @@ var searchPois = require('./search_poi');
 var stateCount = require('./state_wise_count');
 var statePois = require('./state_wise_pois')
 
+var searchPois = require('./search_poi');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });

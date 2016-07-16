@@ -6,23 +6,50 @@ var polyline = require('polyline');
 var findStaysFromLegs = function (req, res) {
     var stays = [];
     var params = [];
-
+    var totalDistance = 0;
     var legs = req.body.legs;
-    for (var leg in legs) {
-        var steps = legs[leg].steps;
+    for (var legIndex in legs) {
+        var leg = legs[legIndex];
+        var steps = leg.steps;
         for (var index in steps) {
             var step = steps[index];
             var distance = step.distance.value;
-            var polylineEncoded = step.polyline.points;
-            var latLngss = polyline.decode(polylineEncoded);
-            for(var i in latLngss){
-                var latLng = latLngss[i];
-                params.push({lat: latLng[0], lng: latLng[1]});
+            totalDistance = totalDistance + distance;
+            console.log("Total dist " + totalDistance);
+
+            if (totalDistance > 100000) {
+                console.log("dist " + totalDistance);
+                if (distance > 20000) {
+                    var polylineEncoded = step.polyline.points;
+                    var latLngss = polyline.decode(polylineEncoded);
+                    var length = latLngss.length;
+                    var midpoint = Math.ceil(length / 2);
+                    var midpoint2 = midpoint;
+
+                    var latLng = latLngss[midpoint];
+                    params.push({lat: latLng[0], lng: latLng[1]});
+                    while (midpoint > 1) {
+                        midpoint = Math.ceil(midpoint / 2);
+                        var latLng = latLngss[midpoint];
+                        params.push({lat: latLng[0], lng: latLng[1]});
+                    }
+
+
+                    var midpointInc = Math.ceil((midpoint2 + length) / 2);
+                    var latLng1 = latLngss[midpointInc];
+                    params.push({lat: latLng1[0], lng: latLng1[1]});
+                    while (midpointInc < (length - 1)) {
+                        midpointInc = Math.ceil((midpointInc + length) / 2);
+                        var latLng = latLngss[midpointInc];
+                        params.push({lat: latLng[0], lng: latLng[1]});
+                    }
+                }
+
+                var end_location = step.end_location;
+                var lat = end_location.lat;
+                var lng = end_location.lng;
+                params.push({lat: lat, lng: lng});
             }
-            var end_location = step.end_location;
-            var lat = end_location.lat;
-            var lng = end_location.lng;
-            params.push({lat: lat, lng: lng});
         }
     }
 
@@ -48,7 +75,7 @@ var findStaysFromLegs = function (req, res) {
 var findRoute = function (req, res) {
 
     var baseUrl = "https://maps.googleapis.com/maps/api/directions/json";
-    var API_KEY = "AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI";
+    var API_KEY = "AIzaSyBz0QZLgUyySO2mWAy5KcOHFXMpWkGYPOA";
 
     var origin_place_id = req.query.origin;
     var destination_place_id = req.query.destination;
