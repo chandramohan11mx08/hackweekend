@@ -1,69 +1,38 @@
 var request = require('request');
 var async = require('async');
+var searchStays = require('./search_stays');
 
+var findStaysFromLegs = function (req, res) {
+    var stays = [];
+    var params = [];
 
-findStaysFromLegs = function () {
-
-    var places = [];
-
-    var baseUrl = "https://maps.googleapis.com/maps/api/directions/json";
-    var API_KEY = "AIzaSyCV4F7s1JuDChWLGFG-2S5rmSbdGnOM2CI";
-
-
-    var request1 = function(){
-        var origin_place_id = "ChIJbU60yXAWrjsR4E9-UejD3_g";
-        var destination_place_id = "ChIJj0i_N0xaozsRZP78dHq8e4I";
-        request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var res = JSON.parse(body);
-                console.log(res.routes[0].legs[0].start_address);
-                console.log(res.routes[0].legs[0].end_address);
-//                places.push(res.routes[0].legs[0].start_address);
-//                places.push(res.routes[0].legs[0].end_address);
-//                console.log("After req 1");
-//                console.dir(places);
-            }
-        });
-    }
-
-
-    var request2 = function(){
-        var origin_place_id = "ChIJj0i_N0xaozsRZP78dHq8e4I";
-        var destination_place_id = "ChIJQbc2YxC6vzsRkkDzYv-H-Oo";
-        request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var res = JSON.parse(body);
-                console.log(res.routes[0].legs[0].start_address);
-                console.log(res.routes[0].legs[0].end_address);
-//                places.push(res.routes[0].legs[0].start_address);
-//                places.push(res.routes[0].legs[0].end_address);
-//                console.log("After req 2");
-//                console.dir(places);
-            }
-        });
-    }
-
-//    request1();
-//        request2();
-    async.parallel([request1, request2], function (err, results) {
-        if (err) {
-            console.log("Something went wrong");
-        } else {
-            console.log("After both");
-            console.dir(places);
-            console.log(results);
+    var legs = req.body.legs;
+    for(var leg in legs){
+        var steps = legs[leg].steps;
+        for(var step in steps){
+            var end_location = steps[step].end_location;
+            var lat = end_location.lat;
+            var lng = end_location.lng;
+            params.push({lat:lat,lng:lng});
         }
-    });
+    }
+
+    async.forEachOf(params, function (value, key, callback) {
+        var lat = params[key].lat;
+        var lng = params[key].lng;
+        searchStays.findStays(lat, lng, 200, function (err, response) {
+            if (!err) {
+                stays.push(response.hits.hits);
+                callback();
+            }
+        });
+    }, function (err) {
+        if (err){
+            console.error(err.message);
+        } else{
+            res.send(200,{"stays":stays});
+        }
+    })
 };
 
-//
-//request(baseUrl + '?origin=place_id:' + origin_place_id + '&destination=place_id:' + destination_place_id + '&key=' + API_KEY, function (error, response, body) {
-//    if (!error && response.statusCode == 200) {
-//        var res = JSON.parse(body);
-//        console.log(res.routes[0].legs[0].start_address);
-//        console.log(res.routes[0].legs[0].end_address);
-//    }
-//});
-
-findStaysFromLegs();
-exports.shortenUrl = findStaysFromLegs;
+exports.findStaysFromLegs = findStaysFromLegs;

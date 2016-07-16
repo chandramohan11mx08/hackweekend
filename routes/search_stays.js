@@ -1,7 +1,8 @@
 var esClientHandler = require('./es_client');
 
-var findStays = function (client, lat, lng, radius, callback) {
-    client.search({
+var findStays = function (lat, lng, radius, callback) {
+    var esClient = esClientHandler.get();
+    esClient.search({
         index: 'search',
         type: 'szlist',
         requestTimeout: 50000000,
@@ -22,27 +23,20 @@ var findStays = function (client, lat, lng, radius, callback) {
                         }
                     }
                 }
-            }
+            },
+            size:10
         }
     }, function (error, response) {
-        if (error) {
-            console.log(error);
-            callback(error, []);
-        }
-        else {
-            console.dir(response);
-            callback(null, response);
-        }
+        callback(error, response);
     });
-    return;
 };
+
 var getUserHotels = function (req, res) {
-    var esClient = esClientHandler.get();
     var lat = req.query.lat;
     var lng = req.query.lng;
     var radius = req.query.radius;
 
-    findStays(esClient, lat, lng, radius, function (err, response) {
+    findStays(lat, lng, radius, function (err, response) {
         if (err) {
             res.send(500, {error: err.message});
         }
@@ -53,4 +47,6 @@ var getUserHotels = function (req, res) {
         }
     });
 };
+
+exports.findStays = findStays;
 exports.getUserHotels = getUserHotels;
