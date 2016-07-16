@@ -1,6 +1,7 @@
 var request = require('request');
 var async = require('async');
 var searchStays = require('./search_stays');
+var polyline = require('polyline');
 
 var findStaysFromLegs = function (req, res) {
     var stays = [];
@@ -9,8 +10,16 @@ var findStaysFromLegs = function (req, res) {
     var legs = req.body.legs;
     for (var leg in legs) {
         var steps = legs[leg].steps;
-        for (var step in steps) {
-            var end_location = steps[step].end_location;
+        for (var index in steps) {
+            var step = steps[index];
+            var distance = step.distance.value;
+            var polylineEncoded = step.polyline.points;
+            var latLngss = polyline.decode(polylineEncoded);
+            for(var i in latLngss){
+                var latLng = latLngss[i];
+                params.push({lat: latLng[0], lng: latLng[1]});
+            }
+            var end_location = step.end_location;
             var lat = end_location.lat;
             var lng = end_location.lng;
             params.push({lat: lat, lng: lng});
