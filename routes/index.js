@@ -8,6 +8,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/* GET search page. */
+router.get('/search', function(req, res, next) {
+  res.render('search', { title: 'Search Stays' });
+});
+
 router.get('/stays', function(req, res, next) {
     searchStays.getUserHotels(req, res);
 });

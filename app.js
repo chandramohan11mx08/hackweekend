@@ -16,8 +16,7 @@ app.engine('.hbs', expressHandlebars({
     extname: '.hbs',
     layoutsDir: 'views',
     helpers: require('./lib/util/server-handlebar-helpers'),
-    partialsDir: path.join(__dirname, 'views/partials'),
-    defaultLayout: 'index'
+    partialsDir: path.join(__dirname, 'views/partials')
 }));
 
 // app.set('views', path.join(__dirname, 'views'));
