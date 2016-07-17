@@ -47,4 +47,8 @@ router.post('/pois/legs', function(req, res, next) {
     whacksPoi.findPoisFromLegs(req, res);
 });
 
+router.post('/stays/pois', function(req, res, next) {
+    whacks.findPoiFromStays(req, res);
+});
+
 module.exports = router;
