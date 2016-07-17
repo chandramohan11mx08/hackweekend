@@ -1,10 +1,10 @@
 var esClientHandler = require('./es_client');
 
 var findStays = function (lat, lng, radius, callback) {
-    if(!radius){
+    if (!radius) {
         radius = "5km";
-    }else{
-        radius = radius+"km";
+    } else {
+        radius = radius + "km";
     }
     var esClient = esClientHandler.get();
     esClient.search({
@@ -29,7 +29,8 @@ var findStays = function (lat, lng, radius, callback) {
                     }
                 }
             },
-            size:10
+            _source: ["sz_id", "description", "base_price", "location", "images"],
+            size: 10
         }
     }, function (error, response) {
         callback(error, response);
