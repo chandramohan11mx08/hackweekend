@@ -142,6 +142,11 @@ $(document).ready(function () {
         }
     });
 
+    $('.js_close_popup').on('click', function () {
+        $('#goingTo').val('');
+        $('.cd-user-modal').removeClass('is-visible');
+    });
+
 
 });
 

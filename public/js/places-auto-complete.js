@@ -26,6 +26,7 @@ function collectPlaceTo() {
     var place = goingTo.getPlace();
     console.log(place.place_id);
     toPlaceId = place.place_id;
+    $('.js_map_loader').removeClass('hide');
     $.ajax({
         url: '/route?origin=' + fromPlaceId + '&destination=' + toPlaceId,
         success: function (body) {
@@ -50,6 +51,7 @@ function collectPlaceTo() {
                         scrollTop: $(".js_map_section_cont").offset().top
                     }, 1000);
                     $('.cd-user-modal').addClass('is-visible');
+                    $('.js_map_loader').addClass('hide');
                     initMap();
                     initMapRedirect(res.routes[0].legs[0].start_location, res.routes[0].legs[0].end_location);
                     $.each(body.stays, function (i, obj) {
