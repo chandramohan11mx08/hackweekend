@@ -53,6 +53,9 @@ function createMarkerForFamousLocations(place) {
     });
 
     google.maps.event.addListener(marker, 'click', function () {
+        if (infowindow) {
+            infowindow.close();
+        }
         infowindow.setContent(place.name);
         infowindow.open(map, this);
         $.ajax({
@@ -163,6 +166,9 @@ function createMarkerForStays(place, stayDetails, routes) {
             '<div class="stay-link js-stay-link">More details</div>' +
             '</div>' +
             '</div>';
+        if (infowindow) {
+            infowindow.close();
+        }
         infowindow = new google.maps.InfoWindow({content: contentString});
         infowindow.open(map, this);
 
@@ -198,6 +204,9 @@ function createMarkerForStays(place, stayDetails, routes) {
                         ''+stayDetails.fld_name+'</div></div></div></div>';
                     $('.js_route_sec').show();
                     $('.js_route_sec .route_label').eq(0).after(html);
+                    if (infowindow) {
+                        infowindow.close();
+                    }
                     infowindow = new google.maps.InfoWindow();
                     var service = new google.maps.places.PlacesService(map);
                     service.nearbySearch({
@@ -216,8 +225,11 @@ function createMarkerForStays(place, stayDetails, routes) {
                 var wayPoints =
                 [{
                     location:new google.maps.LatLng(location[0], location[1]),
-                    stopover:false
+                    stopover: true
                 }];
+
+                $('.js_route_sec').show();
+                $('.js_property_page_cont').hide();
 
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map
@@ -228,7 +240,6 @@ function createMarkerForStays(place, stayDetails, routes) {
                     destination: routes[0].legs[0].end_location,
                     origin: routes[0].legs[0].start_location,
                     waypoints: wayPoints,
-                    optimizeWaypoints: true,
                     travelMode: google.maps.TravelMode.DRIVING
                 };
 
@@ -237,7 +248,19 @@ function createMarkerForStays(place, stayDetails, routes) {
                 directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
                         // Display the route on the map.
+                        var legsString = '';
+                        for (var j=0; j < response.routes[0].legs.length; j++) {
+                           legsString = legsString + '<div class="route_label">' + response.routes[0].legs[j].start_address + '</div><div class="route_marker"><div class="route_marker_label_cont">' +
+                               '<div class="route_marker_label"><div class="dist">' + response.routes[0].legs[j].distance.text + '</div>' +
+                               '<div class="timing">' + response.routes[0].legs[j].duration.text + '</div></div></div></div>';
+
+                            if (j === response.routes[0].legs.length - 1) {
+                                legsString = legsString + '<div class="route_label">' + response.routes[0].legs[j].end_address + '</div>'
+                            }
+                        }
                         directionsDisplay.setDirections(response);
+                        $('.js_route_sec').html('');
+                        $('.js_route_sec').append(legsString);
                     }
                 });
             });

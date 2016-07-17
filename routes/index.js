@@ -5,7 +5,7 @@ var whacks = require("./whacks");
 var whacksPoi = require('./whacks_poi');
 var searchPois = require('./search_poi');
 var stateCount = require('./state_wise_count');
-var statePois = require('./state_wise_pois')
+var statePois = require('./state_wise_pois');
 
 var searchPois = require('./search_poi');
 
