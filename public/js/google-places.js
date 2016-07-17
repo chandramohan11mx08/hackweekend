@@ -105,6 +105,29 @@ function createMarkerForSingleStay(place, name) {
     map.setZoom(13);
 }
 
+function createMarker(place, name) {
+    var image = {
+        url: '/image/hotel_places_marker_icon.png',
+        size: new google.maps.Size(71, 135),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 32),
+        scaledSize: new google.maps.Size(25, 48)
+    };
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place,
+        animation: google.maps.Animation.DROP,
+        icon: image
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow = new google.maps.InfoWindow({content: name});
+        infowindow.open(map, this);
+    });
+    var myLatlng = new google.maps.LatLng(place.lat, place.lng);
+    map.setCenter(myLatlng);
+    map.setZoom(8);
+}
+
 function createMarkerForStays(place, stayDetails, routes) {
     var image = {
         url: '/image/hotel_marker_icon.png',
