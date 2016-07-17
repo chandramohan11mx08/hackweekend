@@ -291,3 +291,38 @@ li.interest_opt_cont h3 {
     display: block;
     padding: 5px 0 0 0;
 }
+.property-image {
+    width: 100%;
+    height: 250px;
+}
+
+.property-description {
+    padding: 20px 12px;
+    background-color: white;
+    color: #636058;
+}
+
+.book-now {
+    padding: 0;
+    background-color: #08D1ED;
+}
+
+.bookNow {
+    padding: 15px;
+    width: 100%;
+    border: none;
+    background-color: #08D1ED;
+    box-shadow: none;
+    color: #FFF;
+}
+
+.property-page {
+    box-shadow: rgba(0, 0, 0, .298039) 0 1px 4px -1px;
+}
+
+.property-name {
+    padding: 20px;
+    box-shadow: none;
+    font-size: 1.2em;
+}
+
