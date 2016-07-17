@@ -57,7 +57,8 @@ li.interest_opt_cont {
     display: inline-block;
     list-style: none;
     text-align: center;
-    width: 45%;
+    width: 49%;
+    cursor: pointer;
 }
 
 li.interest_opt_cont img, .interest_opt_img_cont {
@@ -201,7 +202,7 @@ li.interest_opt_cont h3 {
 .route_marker {
     display: table;
     text-align: center;
-    height: 50%;
+    padding: 30px;
     width: 100%
 }
 

@@ -127,8 +127,8 @@ function createMarkerForStays(place, stayDetails, routes) {
         google.maps.event.addDomListener(infowindow, 'domready', function () {
             $('.js-stay-link').click(function () {
                 $('.js_route_sec').hide();
-                $('.js_property_sec').html('');
-                $('.js_property_sec').append(
+                $('.js_property_page_cont').html('').show();
+                $('.js_property_page_cont').append(
                     '<div class="property-page">' +
                     '<div class="property-name route_label">' + stayDetails.fld_name + '</div>' +
                     '<div class="property-image-wrapper">' +
@@ -148,7 +148,15 @@ function createMarkerForStays(place, stayDetails, routes) {
                         lat: parseFloat(location[0]),
                         lng: parseFloat(location[1])
                     };
-
+                    $('.js_property_page_cont').hide();
+                    var html = '<div class="route_marker"><div class="route_marker_label_cont">' +
+                        '<div class="route_marker_label" style="border: 0;">' +
+                        '<img src="'+imgUrl+'" style="    width: 80px;    height: 80px;    border-radius: 50px;">' +
+                        '<div class="timing" style="border: 1px solid #ddd;padding: 3px 10px;margin: 10px 0 0 0;">' +
+                        ''+stayDetails.fld_name+'</div></div></div></div>';
+                    $('.js_route_sec').show();
+                    $('.js_route_sec .route_label').eq(0).after(html);
+                    console.log(imgUrl, stayDetails.fld_name);
                     infowindow = new google.maps.InfoWindow();
                     var service = new google.maps.places.PlacesService(map);
                     service.nearbySearch({
