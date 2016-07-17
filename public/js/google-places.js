@@ -123,8 +123,30 @@ function createMarker(place, name) {
         icon: image
     });
     google.maps.event.addListener(marker, 'click', function () {
-        infowindow = new google.maps.InfoWindow({content: name});
+        if (infowindow) {
+            infowindow.close();
+        }
+        infowindow.setContent(name);
         infowindow.open(map, this);
+        $.ajax({
+            url: '/stays?lat=' + place.lat + '&lng=' + place.lng + '&radius=15',
+            type: 'GET',
+            dataTYpe: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (body) {
+                var res = body;
+                $.each(body.stays, function (i, obj) {
+                    if (Object.keys(obj).length) {
+                        var ltArr = obj._source.location.split(',');
+                        var object = {
+                            lat: parseFloat(ltArr[0]),
+                            lng: parseFloat(ltArr[1])
+                        };
+                        createMarkerForStays(object, obj._source, res.routes);
+                    }
+                });
+            }
+        });
     });
     var myLatlng = new google.maps.LatLng(place.lat, place.lng);
     map.setCenter(myLatlng);
