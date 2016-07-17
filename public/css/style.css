@@ -117,7 +117,7 @@ li.interest_opt_cont h3 {
 }
 
 .holidays_count_input {
-    font-size: 1.6rem;
+    font-size: 1.1em;
     color: #2b3e51;
     display: inline-block;
     width: 300px;
@@ -183,6 +183,11 @@ li.interest_opt_cont h3 {
 }
 
 /** Route Details **/
+.route_sec {
+    z-index: 3;
+    position: relative;
+}
+
 .route_label {
     display: block;
     text-align: center;
@@ -190,6 +195,7 @@ li.interest_opt_cont h3 {
     font-weight: bold;
     color: rgb(0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.298039) 0 1px 4px -1px;
+    background: #fff;
 }
 
 .route_marker {
@@ -211,14 +217,31 @@ li.interest_opt_cont h3 {
     padding: 8px 20px;
     font-size: 10px;
     line-height: 1.8;
+    background: #fff;
 }
-.route_marker_label .dist{
+
+.route_marker_label .dist {
     color: #6c9f43;
 }
-.route_marker_label .timing{
+
+.route_marker_label .timing {
     color: #edc856;
 }
 
+.route_sec_cont {
+    position: relative;
+}
+
+.route_divider_line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 2px;
+    background: #ddd;
+    left: 53%;
+    z-index: 1;
+}
 
 .marker-toolTip {
     display: table;
@@ -258,3 +281,13 @@ li.interest_opt_cont h3 {
     color: blue;
 }
 
+.cd-bouncy-nav {
+    max-height: 450px;
+    overflow: scroll;
+}
+
+.temple_hep_text {
+    font-size: 11px;
+    display: block;
+    padding: 5px 0 0 0;
+}

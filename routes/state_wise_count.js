@@ -41,7 +41,7 @@ var getStateWiseCount = function (req, res) {
         else {
             res.send(200, {
                 "pois": response.hits.hits,
-                "aggregations" : response.aggregations.buckets
+                "aggregations" : response.aggregations.state.buckets
             })
         }
     });

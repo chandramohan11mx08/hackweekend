@@ -1,7 +1,8 @@
-
 $(document).ready(function () {
 
     var is_bouncy_nav_animating = false;
+    var list_of_state = [];
+    var selected_state_temples = [];
 
     function triggerBouncyNav($bool) {
         //check if no nav animation is ongoing
@@ -21,6 +22,48 @@ $(document).ready(function () {
                 is_bouncy_nav_animating = false;
             }
         }
+    }
+
+    function state_list_events() {
+        $('.js_state_name').on('click', function () {
+            var state = $(this).data('state-name');
+            triggerBouncyNav(false);
+            $('.js_options_close').removeClass('hide');
+            $('.js_form_back').addClass('hide');
+            showFormLoader();
+            $.ajax({
+                url: '/statepois',
+                type: 'POST',
+                data: JSON.stringify({state: state}),
+                dataTYpe: 'json',
+                contentType: "application/json; charset=utf-8",
+                success: function (body) {
+                    console.log(body);
+                    $('.js_city_list').html('');
+                    selected_state_temples = body.pois;
+                    $.each(selected_state_temples, function (i, obj) {
+                        if (obj._source.name) {
+                            $('.js_city_list').append('<li data-state-name="' + obj._source.name + '"><a href="#0" class="js_select_city">' + obj._source.name + ' <br/> <span class="temple_hep_text">' + obj._source.formatted_address + '</span></a></li>');
+                        }
+                    });
+                    $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
+                }
+            });
+        });
+    }
+
+    function addStateOptList(list_of_state) {
+        $('.js_city_list').html('');
+        $.each(list_of_state, function (i, obj) {
+            if (obj.key) {
+                var keyWoSp = obj.key.replace(/ /g, '_');
+                $('.js_city_list').append('<li data-state-name="' + obj.key + '" class="js_state_name">' +
+                    '<img src="/image/state/' + keyWoSp + '.jpeg" style="width: 90px;height: 90px;border-radius: 50px;"/>' +
+                    '<a href="#0" class="js_select_city">' + obj.key + ' <br/> ' +
+                    '<span class="temple_hep_text">' + obj.doc_count + ' temples found</span></a></li>');
+            }
+        });
+        state_list_events();
     }
 
     $('.js_road_trip').on('click', function () {
@@ -49,7 +92,7 @@ $(document).ready(function () {
         if (nextIndex === 2) {
             $('.js_form_next').addClass('hide');
             triggerBouncyNav(true);
-        }else {
+        } else {
             $('.js_form_next').removeClass('hide');
         }
     });
@@ -68,7 +111,7 @@ $(document).ready(function () {
             if (prevIndex === 2) {
                 $('.js_form_next').addClass('hide');
                 triggerBouncyNav(true);
-            }else{
+            } else {
                 $('.js_form_next').removeClass('hide');
             }
         }
@@ -77,35 +120,25 @@ $(document).ready(function () {
     //Select City
     function showFormLoader() {
         $('.js_city_list').html('loading');
-        $('.js_city_list').html('<li><a href="#0" class="js_select_city">Kali</a></li>' +
-            '<li><a href="#0" class="js_select_city">Krishna</a></li>' +
-            '<li><a href="#0" class="js_select_city">God</a></li>' +
-            '<li><a href="#0" class="js_select_city">Dodd</a></li>' +
-            '<li><a href="#0" class="js_select_city">Ram</a></li>' +
-            '<li><a href="#0" class="js_select_city">Seethe</a></li>');
-        $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
     }
-
-    function bindSelectOptionsEvents() {
-        $('.js_select_city').on('click', function () {
-            triggerBouncyNav(false);
-            showFormLoader();
-            $('.js_options_close').removeClass('hide');
-            $('.js_form_back').addClass('hide');
-        });
-    }
-
-    bindSelectOptionsEvents();
 
     $('.js_options_close').on('click', function () {
         triggerBouncyNav(false);
-        var html = '<li> <a href="#0" class="js_select_city">Bangalore</a> </li> <li> <a href="#0" class="js_select_city">Goa</a> </li> <li> <a href="#0" class="js_select_city">Mumbai</a> </li> <li> <a href="#0" class="js_select_city">Delhi</a> </li> <li> <a href="#0" class="js_select_city">Kolkata</a> </li> <li> <a href="#0" class="js_select_city">Chennai</a> </li>';
-        $('.js_city_list').html(html);
         $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
         $('.js_options_close').addClass('hide');
         $('.js_form_back').removeClass('hide');
-        bindSelectOptionsEvents();
+        addStateOptList(list_of_state);
     });
-    
-    
+
+    $.ajax({
+        url: '/statecount',
+        type: 'GET',
+        success: function (body) {
+            console.log(body.aggregations);
+            list_of_state = body.aggregations;
+            addStateOptList(list_of_state);
+        }
+    });
+
+
 });
