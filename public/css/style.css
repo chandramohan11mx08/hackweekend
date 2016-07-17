@@ -326,3 +326,8 @@ li.interest_opt_cont h3 {
     font-size: 1.2em;
 }
 
+.add-btn {
+    float: right;
+    margin-left: 40px;
+}
+

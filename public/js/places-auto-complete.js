@@ -59,8 +59,7 @@ function collectPlaceTo() {
                                     lat: parseFloat(ltArr[0]),
                                     lng: parseFloat(ltArr[1])
                                 };
-                                console.log('source is', val._source);
-                                createMarkerForStays(obj, val._source);
+                                createMarkerForStays(obj, val._source, res.routes);
                             });
                         }
 
@@ -98,7 +97,6 @@ function collectPlaceTo() {
 function collectPlaceFrom() {
     // Get the place details from the autocomplete object.
     var place = startingFrom.getPlace();
-    console.log(place.place_id);
     fromPlaceId = place.place_id;
     // Get each component of the address from the place details
     // and fill the corresponding field on the form.
