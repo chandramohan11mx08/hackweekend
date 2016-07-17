@@ -55,6 +55,25 @@ function createMarkerForFamousLocations(place) {
     google.maps.event.addListener(marker, 'click', function () {
         infowindow.setContent(place.name);
         infowindow.open(map, this);
+        $.ajax({
+            url: '/stays?lat='+ place.geometry.location.lat() + '&lng=' + place.geometry.location.lng() + '&radius=15',
+            type: 'GET',
+            dataTYpe: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (body) {
+                var res = body;
+                $.each(body.stays, function (i, obj) {
+                    if (Object.keys(obj).length) {
+                            var ltArr = obj._source.location.split(',');
+                            var object = {
+                                lat: parseFloat(ltArr[0]),
+                                lng: parseFloat(ltArr[1])
+                            };
+                            createMarkerForStays(object, obj._source, res.routes);
+                    }
+                });
+        }
+    });
     });
 }
 
@@ -109,7 +128,7 @@ function createMarkerForStays(place, stayDetails, routes) {
         } else {
             imgUrl = '//stay-imgs.stayzilla.com/resize/400x400/110876/980596.jpg';
         }
-        var contentString = '<div class="marker-toolTip">' +
+        var contentString = '<div class="marker-toolTip" data-type="stay">' +
             '<div class="stay-image">' +
             '<img class="image" src=' + imgUrl + '/>' +
             '</div>' +
@@ -156,12 +175,11 @@ function createMarkerForStays(place, stayDetails, routes) {
                         ''+stayDetails.fld_name+'</div></div></div></div>';
                     $('.js_route_sec').show();
                     $('.js_route_sec .route_label').eq(0).after(html);
-                    console.log(imgUrl, stayDetails.fld_name);
                     infowindow = new google.maps.InfoWindow();
                     var service = new google.maps.places.PlacesService(map);
                     service.nearbySearch({
                         location: pyrmont,
-                        radius: 50000,
+                        radius: 25000,
                         rating: 4,
                         types: ['hindu_temple'],
                         rankby: 'prominence'
@@ -190,14 +208,12 @@ function createMarkerForStays(place, stayDetails, routes) {
                     optimizeWaypoints: true,
                     travelMode: google.maps.TravelMode.DRIVING
                 };
-                console.log('sjhad', request);
 
                 // Pass the directions request to the directions service.
                 var directionsService = new google  .maps.DirectionsService();
                 directionsService.route(request, function (response, status) {
                     if (status == google.maps.DirectionsStatus.OK) {
                         // Display the route on the map.
-                        console.log('hey', response);
                         directionsDisplay.setDirections(response);
                     }
                 });
