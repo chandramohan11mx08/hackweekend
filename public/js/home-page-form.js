@@ -43,7 +43,9 @@ $(document).ready(function () {
                     selected_state_temples = body.pois;
                     $.each(selected_state_temples, function (i, obj) {
                         if (obj._source.name) {
-                            $('.js_city_list').append('<li data-state-name="' + obj._source.name + '"><a href="#0" class="js_select_city">' + obj._source.name + ' <br/> <span class="temple_hep_text">' + obj._source.formatted_address + '</span></a></li>');
+                            $('.js_city_list').append('<li data-state-name="' + obj._source.name + '">' +
+                                '<img src="/image/temple_default.jpg" style="width: 90px;height: 90px;border-radius: 50px;"/>' +
+                                '<a href="#0" class="js_select_city">' + obj._source.name + '</a></li>');
                         }
                     });
                     $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
@@ -71,7 +73,9 @@ $(document).ready(function () {
         $(this).find('.interest_opt_img_cont').addClass('active');
         $('.js_pilgrimage_trip_form').addClass('hide');
         $('.js_road_trip_form').removeClass('hide');
-        $('.js_form_next').trigger('click');
+        $('.js_form_nav').data('curr-index', 1);
+        $('.pagination [data-index="2"]').parent().trigger('click');
+        $('.js_form_next').addClass('hide');
         $('.holidays_nav_sec').removeClass('hide');
     });
 
@@ -80,7 +84,10 @@ $(document).ready(function () {
         $(this).find('.interest_opt_img_cont').addClass('active');
         $('.js_pilgrimage_trip_form').removeClass('hide');
         $('.js_road_trip_form').addClass('hide');
-        $('.js_form_next').trigger('click');
+        $('.js_form_nav').data('curr-index', 1);
+        $('.pagination [data-index="1"]').parent().trigger('click');
+        $('.js_form_next').addClass('hide');
+        triggerBouncyNav(true);
         $('.holidays_nav_sec').removeClass('hide');
     });
 
@@ -89,12 +96,7 @@ $(document).ready(function () {
         var nextIndex = currIndex + 1;
         $('.js_form_nav').data('curr-index', nextIndex);
         $('.pagination [data-index="' + nextIndex + '"]').parent().trigger('click');
-        if (nextIndex === 2) {
-            $('.js_form_next').addClass('hide');
-            triggerBouncyNav(true);
-        } else {
-            $('.js_form_next').removeClass('hide');
-        }
+        $('.js_form_next').removeClass('hide');
     });
 
     $('.js_form_back').on('click', function () {
@@ -108,7 +110,7 @@ $(document).ready(function () {
 
             $('.js_form_nav').data('curr-index', prevIndex);
 
-            if (prevIndex === 2) {
+            if (prevIndex === 1) {
                 $('.js_form_next').addClass('hide');
                 triggerBouncyNav(true);
             } else {

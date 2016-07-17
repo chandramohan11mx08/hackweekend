@@ -36,10 +36,20 @@ function splitDescription(description) {
 }
 
 function createMarkerForFamousLocations(place) {
+    var image = {
+        url: '/image/hotel_places_marker_icon.png',
+        size: new google.maps.Size(71, 135),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 32),
+        scaledSize: new google.maps.Size(25, 48)
+    };
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
-        position: place.geometry.location
+        zoom: 14,
+        position: place.geometry.location,
+        icon: image,
+        animation: google.maps.Animation.DROP
     });
 
     google.maps.event.addListener(marker, 'click', function () {
@@ -58,19 +68,37 @@ function callback(results, status) {
 }
 
 function createMarkerForSingleStay(place, name) {
+    var image = {
+        url: '/image/hotel_selected_marker_icon.png',
+        size: new google.maps.Size(71, 135),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 32),
+        scaledSize: new google.maps.Size(25, 48)
+    };
     var marker = new google.maps.Marker({
         map: map,
         lat: place.lat,
         lng: place.lng,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+        icon: image
     });
+    var myLatlng = new google.maps.LatLng(place.lat, place.lng);
+    map.setCenter(myLatlng);
+    map.setZoom(13);
 }
 
 function createMarkerForStays(place, stayDetails, routes) {
+    var image = {
+        url: '/image/hotel_marker_icon.png',
+        size: new google.maps.Size(71, 135),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 32),
+        scaledSize: new google.maps.Size(25, 48)
+    };
     var marker = new google.maps.Marker({
         map: map,
         position: place,
-        icon: '/image/hotel_marker_icon.png'
+        animation: google.maps.Animation.DROP,
+        icon: image
     });
 
     google.maps.event.addListener(marker, 'click', function () {
