@@ -1,6 +1,11 @@
 var esClientHandler = require('./es_client');
 
 var findStays = function (lat, lng, radius, callback) {
+    if(!radius){
+        radius = "5km";
+    }else{
+        radius = radius+"km";
+    }
     var esClient = esClientHandler.get();
     esClient.search({
         index: 'search',
@@ -15,7 +20,7 @@ var findStays = function (lat, lng, radius, callback) {
                     filter: {
                         geo_distance_range: {
                             from: "0km",
-                            to: "5km",
+                            to: radius,
                             location: {
                                 lat: lat,
                                 lon: lng

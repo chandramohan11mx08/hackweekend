@@ -56,7 +56,11 @@ var findStaysFromLegs = function (req, res) {
     async.forEachOf(params, function (value, key, callback) {
         var lat = params[key].lat;
         var lng = params[key].lng;
-        searchStays.findStays(lat, lng, 200, function (err, response) {
+        var radius = 5;
+        if(key == (params.length-1)){
+            radius = 30;
+        }
+        searchStays.findStays(lat, lng, radius, function (err, response) {
             if (!err) {
                 stays.push(response.hits.hits);
                 callback();
