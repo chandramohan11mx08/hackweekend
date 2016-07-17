@@ -49,6 +49,7 @@ function collectPlaceTo() {
                     $('html,body').animate({
                         scrollTop: $(".js_map_section_cont").offset().top
                     }, 1000);
+                    $('.cd-user-modal').addClass('is-visible');
                     initMap();
                     initMapRedirect(res.routes[0].legs[0].start_location, res.routes[0].legs[0].end_location);
                     $.each(body.stays, function (i, obj) {
