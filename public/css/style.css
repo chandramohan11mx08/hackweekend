@@ -281,3 +281,13 @@ li.interest_opt_cont h3 {
     color: blue;
 }
 
+.cd-bouncy-nav {
+    max-height: 450px;
+    overflow: scroll;
+}
+
+.temple_hep_text {
+    font-size: 11px;
+    display: block;
+    padding: 5px 0 0 0;
+}

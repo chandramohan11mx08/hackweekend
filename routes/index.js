@@ -39,7 +39,7 @@ router.get('/statecount' , function (req, res, next) {
     stateCount.getStateWiseCount(req, res);
 });
 
-router.get('/statepois', function (req, res, next) {
+router.post('/statepois', function (req, res, next) {
     statePois.getStateWisePois(req,res);
 });
 

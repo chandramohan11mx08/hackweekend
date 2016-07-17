@@ -32,7 +32,7 @@ var findStateWisePois  = function (state, callback) {
     return;
 };
 var getStateWisePois = function (req, res) {
-    var state = req.state;
+    var state = req.body.state;
     findStateWisePois(state, function (err, response) {
         if (err) {
             res.send(500, {error: err.message});
