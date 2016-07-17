@@ -27,10 +27,6 @@ $(document).ready(function () {
     function state_list_events() {
         $('.js_state_name').on('click', function () {
             var state = $(this).data('state-name');
-            triggerBouncyNav(false);
-            $('.js_options_close').removeClass('hide');
-            $('.js_form_back').addClass('hide');
-            showFormLoader();
             $.ajax({
                 url: '/statepois',
                 type: 'POST',
@@ -39,16 +35,19 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 success: function (body) {
                     console.log(body);
-                    $('.js_city_list').html('');
                     selected_state_temples = body.pois;
+                    $('.cd-user-modal').addClass('is-visible');
+                    initMap();
                     $.each(selected_state_temples, function (i, obj) {
                         if (obj._source.name) {
-                            $('.js_city_list').append('<li data-state-name="' + obj._source.name + '">' +
-                                '<img src="/image/temple_default.jpg" style="width: 90px;height: 90px;border-radius: 50px;"/>' +
-                                '<a href="#0" class="js_select_city">' + obj._source.name + '</a></li>');
+                            var ltArr = obj._source.geometry.location;
+                            var place = {
+                                lat: parseFloat(ltArr.lat),
+                                lng: parseFloat(JSON.parse(JSON.stringify(ltArr.lon)))
+                            };
+                            createMarker(place, obj._source.name);
                         }
                     });
-                    $('.cd-bouncy-nav-modal').removeClass('fade-out').addClass('fade-in');
                 }
             });
         });

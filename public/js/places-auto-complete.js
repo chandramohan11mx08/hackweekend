@@ -47,9 +47,6 @@ function collectPlaceTo() {
                 dataTYpe: 'json',
                 contentType: "application/json; charset=utf-8",
                 success: function (body) {
-                    $('html,body').animate({
-                        scrollTop: $(".js_map_section_cont").offset().top
-                    }, 1000);
                     $('.cd-user-modal').addClass('is-visible');
                     $('.js_map_loader').addClass('hide');
                     initMap();
@@ -82,7 +79,7 @@ function collectPlaceTo() {
                                             lat: parseFloat(ltArr.lat),
                                             lng: parseFloat(JSON.parse(JSON.stringify(ltArr.lon)))
                                         };
-                                        createMarkerForStays(obj, val._source.name);
+                                        createMarkerForSingleStay(obj, val._source.name);
                                     });
                                 }
 
