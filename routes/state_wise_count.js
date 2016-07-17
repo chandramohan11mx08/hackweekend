@@ -26,7 +26,6 @@ var findStateWiseCount  = function (callback) {
             callback(error, []);
         }
         else {
-            console.dir(response);
             callback(null, response);
         }
     });

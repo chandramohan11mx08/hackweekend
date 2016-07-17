@@ -15,10 +15,10 @@ var findStaysFromLegs = function (req, res) {
             var step = steps[index];
             var distance = step.distance.value;
             totalDistance = totalDistance + distance;
-            console.log("Total dist " + totalDistance);
+            console.log("dist so far: " + totalDistance);
 
             if (totalDistance > 100000) {
-                console.log("dist " + totalDistance);
+                console.log("dist so far inside proceed" + totalDistance);
                 if (distance > 20000) {
                     var polylineEncoded = step.polyline.points;
                     var latLngss = polyline.decode(polylineEncoded);

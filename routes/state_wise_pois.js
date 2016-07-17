@@ -25,7 +25,6 @@ var findStateWisePois  = function (state, callback) {
             callback(error, []);
         }
         else {
-            console.dir(response);
             callback(null, response);
         }
     });

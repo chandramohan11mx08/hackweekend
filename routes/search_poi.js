@@ -32,7 +32,6 @@ var findPois  = function (lat, lng, radius, callback) {
             callback(error, []);
         }
         else {
-            console.dir(response);
             callback(null, response);
         }
     });
