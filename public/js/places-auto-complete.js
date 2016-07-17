@@ -63,7 +63,6 @@ function collectPlaceTo() {
                                 createMarkerForStays(obj, val._source, res.routes);
                             });
                         }
-
                     });
                     $.ajax({
                         url: '/pois/legs',

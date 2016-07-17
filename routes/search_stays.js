@@ -29,7 +29,7 @@ var findStays = function (lat, lng, radius, callback) {
                     }
                 }
             },
-            _source: ["sz_id", "description", "base_price", "location", "images"],
+            _source: ["sz_id","fld_name", "description", "base_price", "location", "images"],
             size: 10
         }
     }, function (error, response) {
