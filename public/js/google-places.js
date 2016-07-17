@@ -15,52 +15,127 @@ function initMap() {
     infowindow = new google.maps.InfoWindow();
 }
 
-function createMarkerForStays(place, stayDetails) {
+function splitDescription(description) {
+    var descriptionObj = {};
+    var noOfLettersToShow = 300;
+
+    if (description) {
+        description = description.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+        description = description.replace(/(?:<br[^>]*>\s*){2,}/g, '<br/><br/>');
+
+        if (description.length > noOfLettersToShow) {
+            descriptionObj.textToShow = description.slice(0, noOfLettersToShow);
+            descriptionObj.extraDescription = description.slice(noOfLettersToShow, description.length);
+        } else {
+            descriptionObj.textToShow = description;
+            descriptionObj.extraDescription = '';
+        }
+    }
+
+    return descriptionObj;
+}
+
+function createMarkerForFamousLocations(place) {
+    var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
-        position: place
+        position: place.geometry.location
     });
 
     google.maps.event.addListener(marker, 'click', function () {
-        console.log('here is the stay', stayDetails);
-        var imgUrl = null;
-        var stayDescription = '';
-        if (stayDetails.description) {
-            stayDescription = stayDetails.description;
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
+}
+
+function callback(results, status) {
+    console.log('jdshf', results);
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            createMarkerForFamousLocations(results[i]);
         }
+    }
+    createMarkerForStays()
+}
+
+function createMarkerForSingleStay(place, name) {
+    console.log('hey place', place, name);
+    var marker = new google.maps.Marker({
+        map: map,
+        lat: place.lat,
+        lng: place.lng,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
+}
+
+function createMarkerForStays(place, stayDetails) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place,
+        icon: '/image/hotel_marker_icon.png'
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        var imgUrl = null;
+        var stayDescription = splitDescription(stayDetails.description);
         if (stayDetails.images && stayDetails.images.length) {
-            imgUrl = '//stay-imgs.stayzilla.com/resize/75x75/' + stayDetails.sz_id + '/' + stayDetails.images[0].sz_id + '.' + stayDetails.images[0].ext;
+            imgUrl = '//stay-imgs.stayzilla.com/resize/400x400/' + stayDetails.sz_id + '/' + stayDetails.images[0].sz_id + '.' + stayDetails.images[0].ext;
         } else {
-            imgUrl = '//stay-imgs.stayzilla.com/resize/400x300/110876/980596.jpg';
+            imgUrl = '//stay-imgs.stayzilla.com/resize/400x400/110876/980596.jpg';
         }
         var contentString = '<div class="marker-toolTip">' +
-            '<div class="stay-image">'+
+            '<div class="stay-image">' +
             '<img class="image" src=' + imgUrl + '/>' +
             '</div>' +
             '<div class="stay-info">' +
-            '<div class="stay-name">' + stayDetails.fld_name +'</div>' +
+            '<div class="stay-name">' + stayDetails.fld_name + '</div>' +
             '<div class="stay-price">Rs ' + stayDetails.base_price + '</div>' +
-            '<div class="stay-link js-stay-link">link</div>' +
+            '<div class="stay-link js-stay-link">More details</div>' +
             '</div>' +
             '</div>';
         infowindow = new google.maps.InfoWindow({content: contentString});
         infowindow.open(map, this);
 
-        google.maps.event.addDomListener(infowindow, 'domready', function() {
-            $('.js-stay-link').click(function() {
+        google.maps.event.addDomListener(infowindow, 'domready', function () {
+            $('.js-stay-link').click(function () {
                 $('.js_route_sec').hide();
                 $('.js_property_sec').html('');
                 $('.js_property_sec').append(
-                '<div class="property-page">' +
-                    '<div class="property-name">' + stayDetails.fld_name +'</div>' +
-                    '<div class="property-image">' +
-                    '<img class="" src=' + imgUrl + '/>' +
-                    + '</div>' +
-                    '<div class="property-description">' + stayDescription + '</div>' +
+                    '<div class="property-page">' +
+                    '<div class="property-name route_label">' + stayDetails.fld_name + '</div>' +
+                    '<div class="property-image-wrapper">' +
+                    '<img class="property-image" src=' + imgUrl + '/>' + '</div>' +
+                    '<div class="property-description">' + stayDescription.textToShow + '... </div>' +
                     '<div class="property-inventory">' + '</div>' +
-                    '<div class="book-now">' + '</div>' +
+                    '<div class="book-now route_label">' +
+                    '<button class="bookNow"> Book Now'
+                    + '</button>' +
+                    '</div>' +
                     '</div>'
                 );
+
+                $('.bookNow').on('click', function () {
+                    var location = stayDetails.location.split(',');
+                    var pyrmont = {
+                        lat: parseFloat(location[0]),
+                        lng: parseFloat(location[1])
+                    };
+                    // map = new google.maps.Map(document.getElementById('map'), {
+                    //     center: pyrmont,
+                    //     zoom: 10
+                    // });
+
+                    infowindow = new google.maps.InfoWindow();
+                    var service = new google.maps.places.PlacesService(map);
+                    service.nearbySearch({
+                        location: pyrmont,
+                        radius: 50000,
+                        rating: 4,
+                        types: ['hindu_temple'],
+                        rankby: 'prominence'
+                    }, callback);
+                    createMarkerForSingleStay(place, stayDetails.fld_name);
+                });
             });
         });
     });
